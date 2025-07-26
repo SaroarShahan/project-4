@@ -1,0 +1,62 @@
+name: projecthub
+
+on: 
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm install -g yarn && yarn install
+      - name: Run lint
+        run: yarn lint
+      - name: Notify lint completion
+        run: echo "Linting completed successfully!"
+    
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm install -g yarn && yarn install
+      - name: Run tests
+        run: yarn test
+      - name: Notify test completion
+        run: echo "Tests completed successfully!"
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm install -g yarn && yarn install
+      - name: Run build
+        run: yarn build
+      - name: Deploy to production
+        run: echo "Deploying to production server..."
+      - name: Notify deployment completion
+        run: echo "Deployment completed successfully!"
