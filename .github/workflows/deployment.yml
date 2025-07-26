@@ -2,13 +2,18 @@ name: Deployment
 
 on: 
   push:
-    branches: [main, development, staging]
-    branches-ignore: ['feature/**', 'bugfix/**']
-    paths-ignore: ['.github/workflows/**']
+    branches:
+      - main
+      - development
+      - staging
+    paths-ignore:
+      - ".github/workflows/**"
   pull_request:
     types: 
       - opened
-    branches: ['feature/**', 'bugfix/**']
+    branches: 
+      - "feature/**"
+      - "bugfix/**"
   workflow_dispatch:
 
 jobs:
