@@ -21,8 +21,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Get yarn cache directory
-        id: yarn-cache-dir
-        run: echo "YARN_CACHE_DIR=$(yarn cache dir)" >> $GITHUB_OUTPUT
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
       - name: Cache dependencies
         id: yarn-cache
         uses: actions/cache@v4
