@@ -6,8 +6,6 @@ on:
       - main
       - development
       - staging
-    paths-ignore:
-      - ".github/workflows/**"
   pull_request:
     types: 
       - opened
@@ -64,6 +62,11 @@ jobs:
         run: npm install -g yarn && yarn install --frozen-lockfile
       - name: Run build
         run: yarn build
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-files
+          path: dist
       - name: Notify build completion
         run: echo "Build completed successfully!"
 
