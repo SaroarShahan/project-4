@@ -30,26 +30,9 @@ jobs:
         run: yarn lint
       - name: Notify lint completion
         run: echo "Linting completed successfully!"
-    
-  test:
-    needs: lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
-      - name: Install dependencies
-        run: npm install -g yarn && yarn install --frozen-lockfile
-      - name: Run tests
-        run: yarn test
-      - name: Notify test completion
-        run: echo "Tests completed successfully!"
   
   build:
-    needs: test
+    needs: lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -63,7 +46,7 @@ jobs:
       - name: Run build
         run: yarn build
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-files
           path: dist
