@@ -1,6 +1,7 @@
 import HelpBox from './HelpBox';
 import './HelpArea.css';
 
+// This component displays a help area with multiple help boxes.
 const HELP_ITEMS = [
   {
     id: 'h1',
