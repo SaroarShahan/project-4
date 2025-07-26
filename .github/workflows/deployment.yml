@@ -34,6 +34,8 @@ jobs:
   build:
     needs: lint
     runs-on: ubuntu-latest
+    outputs:
+      build-file: ${{ steps.upload.outputs.build-files }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -45,6 +47,9 @@ jobs:
         run: npm install -g yarn && yarn install --frozen-lockfile
       - name: Run build
         run: yarn build
+      - name: Publish JS filenames
+        id: upload
+        run: find dist/assets/*.js -type f -execdir echo 'build-files={}' >> $GITHUB_OUTPUT ';'
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -61,8 +66,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-files
-      - name: Show build files
+      - name: Show build contents
         run: ls
+      - name: Show build files
+        run: echo "${{ needs.build.outputs.build-file }}"
       - name: Deploy to production
         run: echo "Deploying to production server..."
       - name: Notify deployment completion
